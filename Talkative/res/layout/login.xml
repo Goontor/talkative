@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/background"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+     >
+    
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_weight="11">
+
+	</LinearLayout>
+	
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20px"
+        android:layout_weight="2"
+        android:gravity="right"
+        android:textSize="26px"
+        android:text="Talkative
+        &apos;anybody, anywhere, anytime&apos;"
+        android:textAlignment="gravity"
+        android:textColor="#FFFFFF" />
+	
+   	<LinearLayout
+   	    android:layout_width="match_parent"
+   	    android:layout_height="wrap_content"
+   	    android:layout_marginLeft="80px"
+   	    android:layout_marginRight="80px"
+   	    android:background="@drawable/background_connexion"
+   	    android:orientation="horizontal"
+   	    android:padding="10dp" >
+
+		 <LinearLayout
+        	android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:layout_weight="4">
+	        
+	        <TextView
+       			 android:id="@+id/textView1"
+        		android:layout_width="fill_parent"
+        		android:layout_height="match_parent"
+		        android:text="Se Connecter"
+		        android:textColor="#000000"
+		        android:gravity="center"
+		        android:layout_weight="4" />
+	        
+			<LinearLayout
+        	android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_weight="4">
+	        <EditText
+	            android:inputType=""
+	            android:hint="Pseudo"
+	            android:textSize="18px"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="4"
+	             />
+
+	        <EditText
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:textSize="18px"
+	            android:ems="10"
+	            android:layout_weight="4"
+	            android:hint="Password"
+	            >
+
+
+	        </EditText>
+			
+	        </LinearLayout>
+	        
+			<Button
+			    android:layout_width="fill_parent"
+			    android:layout_height="26dp"
+			    android:layout_marginLeft="110px"
+			    android:layout_marginRight="110px"
+			    android:text="OK"
+			    android:textSize="16px" />
+			 
+			<TextView
+       			 android:id="@+id/textView1"
+        		android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+		        android:text="Mot de passe oublié ?"
+		        android:textColor="#000000"
+		        android:gravity="center"
+		        android:textSize="18px"
+		        android:layout_weight="4" />
+			
+	        <TextView
+       			 android:id="@+id/textView1"
+        		android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+		        android:text="Créer un Compte"
+		        android:textSize="18px"
+		        android:textColor="#000000"
+		        android:gravity="center"
+		        android:layout_weight="4" />
+	        
+	         
+		>
+		</LinearLayout>
+
+	    	
+	 </LinearLayout>	
+	
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1" >
+
+	</LinearLayout>
+</LinearLayout>
