@@ -5,5 +5,12 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_login">Login</string>
-
+    <string name="lang_prompt">Choisis une langue</string>
+	<string-array name="lang_arrays">
+        <item>Français</item>
+        <item>Anglais</item>
+        <item>Espagnol</item>
+        <item>Chinois</item>
+        <item>Italien</item>
+    </string-array>
 </resources>
