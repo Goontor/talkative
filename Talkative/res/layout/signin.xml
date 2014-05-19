@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <EditText
+        android:id="@+id/pseudosi"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:hint="pseudo"/>
+    <EditText 
+        android:id="@+id/passwordsi"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:hint="password"/>
+    <Button 
+        android:id="@+id/submitsi"
+        android:text="submit"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"/>
+    
+
+</LinearLayout>
