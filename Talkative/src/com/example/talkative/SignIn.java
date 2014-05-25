@@ -1,7 +1,11 @@
 package com.example.talkative;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +15,10 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.jivesoftware.smack.AccountManager;
@@ -42,29 +48,16 @@ public class SignIn extends Activity  {
 	// Progress Dialog
     private ProgressDialog pDialog;
 
-    // JSON parser class
-    JSONParser jsonParser = new JSONParser();
+ 
 
-    //php login script
-
-    //localhost :
-    //testing on your device
-    //put your local ip instead,  on windows, run CMD > ipconfig
-    //or in mac's terminal type ifconfig and look for the ip under en0 or en1
-   // private static final String LOGIN_URL = "http://xxx.xxx.x.x:1234/webservice/register.php";
-
-    //testing on Emulator:
     private static final String LOGIN_URL = "http://10.0.2.2:1234/webservice/register.php";
 
-  //testing from a real server:
-    //private static final String LOGIN_URL = "http://www.yourdomain.com/webservice/register.php";
 
-    //ids
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
     public static final String HOST = "188.226.205.160";
 	public static final int PORT = 5222;
-	public static final String SERVICE = "localhost";
+	public static final String SERVICE = "talkative.com";
 	
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,41 +74,20 @@ public class SignIn extends Activity  {
 		});
 
 	}
-	/*class CreateUser extends AsyncTask<String, String, String> {
-
-		 /**
-        * Before starting background thread Show Progress Dialog
-        * 
-		boolean failure = false;
-
-       @Override
-       protected void onPreExecute() {
-           super.onPreExecute();
-           Log.d("eeee", "pre");
-           
-           pDialog = new ProgressDialog(SignIn.this);
-           pDialog.setMessage("Creating User...");
-           pDialog.setIndeterminate(false);
-           pDialog.setCancelable(true);
-           pDialog.show();
-       }
-
-		protected String doInBackground(String... args) {*/
-			// TODO Auto-generated method stub
-			 // Check for success tag
 	public void CreateUser() {
 
 		final ProgressDialog dialog = ProgressDialog.show(this,
-				"Connecting...", "Please wait...", false);
+				"Creating...", "Please wait...", false);
 
 		Thread t = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-           int success;
-           String pseudoS = pseudo.toString();
-           String passwordS = password.toString();
-           String emailS = email.toString();
+	           int success;
+	           String pseudoS = pseudo.getText().toString();
+	           String passwordS = password.getText().toString();
+	           String emailS = email.getText().toString();
+           
            
            try {
                // Building Parameters
@@ -125,48 +97,35 @@ public class SignIn extends Activity  {
                params.put("email", emailS);
                params.put("name", pseudoS);
                Log.d("request!", "starting");
-               ConnectionConfiguration connConfig = new ConnectionConfiguration(
-						HOST, PORT,SERVICE);
+               ConnectionConfiguration connConfig = new ConnectionConfiguration(HOST, PORT,SERVICE);
                XMPPConnection con = new XMPPConnection (connConfig);
-               Log.d("request!", "starting2");
+               
+               Log.d("request!", "starting2"+con.getRoster().toString());
                try{
             	   con.connect();
             	   Log.d("request!", "starting3");
-            	   con.login("admin", "dratar1er");
             	   Log.d("request!", "starting4");
                }
                catch(XMPPException e){
             	   Toast.makeText(SignIn.this, "connexion eror: "+e,3000).show();
                }
                AccountManager am = new AccountManager(con);
-               try{
-            	   Log.d("request!", "starting5");
-            	 am.createAccount(pseudoS, passwordS, params);
-            	 Log.d("request!", "starting6");
+               if(am.supportsAccountCreation()){
+	               try{
+	            	   Log.d("request!", "starting5");
+	            	   
+	            	 am.createAccount(pseudoS, passwordS,params);
+	            	 Log.d("request!", "starting6");
+	               }
+	               catch(XMPPException e){
+	            	   Log.d("request!", "starting7 "+e);
+	            	   Toast.makeText(SignIn.this, "Adding account Error: "+e,3000).show();
+	               }
                }
-               catch(XMPPException e){
-            	   Toast.makeText(SignIn.this, "Adding account Error: "+e,3000).show();
+               else{
+            	   Log.d("request!", "starting8: Not supported");
                }
                con.disconnect();
-               //Posting user data to script
-               
-               //JSONObject json = jsonParser.makeHttpRequest(
-               //     "http://188.226.205.160/:9090/plugins/userService/userservice", "GET", params);
-
-               // full json response
-               //Log.d("Login attempt", json.toString());
-
-               // json success element
-               //success = json.getInt("Succes");
-               //if (success == 1) {
-               	//Log.d("User Created!", json.toString());
-               	//finish();
-               	//return json.getString("Tag message");
-               //}else{
-               	//Log.d("Login Failure!", json.getString("Tag message"));
-               	//return json.getString("Tag message");
-
-               //}
            } catch (Exception e) {
                
            }
@@ -176,6 +135,7 @@ public class SignIn extends Activity  {
 		/**
         * After completing background task Dismiss the progress dialog
         * **/
+           
 			
 		});
 		
