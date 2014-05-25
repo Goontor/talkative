@@ -13,6 +13,11 @@
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
         android:hint="password"/>
+    <EditText 
+        android:id="@+id/emailsi"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:hint="Email"/>
     <Button 
         android:id="@+id/submitsi"
         android:text="submit"
