@@ -100,7 +100,7 @@
 			    android:textSize="26px" />
 			 
 			<TextView
-			    android:id="@+id/textView1"
+			    android:id="@+id/lostPasswordLog"
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_weight="4"
@@ -110,7 +110,7 @@
 			    android:textSize="26px" />
 			
 	        <TextView
-	            android:id="@+id/textView1"
+	            android:id="@+id/signInLog"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="4"
