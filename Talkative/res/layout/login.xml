@@ -70,6 +70,7 @@
 	        android:layout_weight="4">
 
 	        <EditText
+	            android:id="@+id/usernamLog"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="4"
@@ -78,6 +79,7 @@
 	            android:textSize="26px" />
 
 	        <EditText
+	            android:id="@+id/passwordLog"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
 	            android:textSize="26px"
@@ -92,6 +94,7 @@
 	        </LinearLayout>
 	        
 			<Button
+			    android:id="@+id/submitButtonLog"
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_marginLeft="110px"

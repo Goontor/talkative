@@ -5,17 +5,39 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <service
+	    android:name="ConnexionService">
+	    
+		</service>
         <activity
             android:name="com.example.talkative.MainActivity"
             android:label="@string/app_name" >
+            
+            
+        </activity>
+        <activity
+            android:name="com.example.talkative.MainPanel"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            
+        </activity>
+        <activity
+            android:name="com.example.talkative.ChatMatcher"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
             
             
         </activity>

@@ -6,11 +6,24 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_login">Login</string>
     <string name="lang_prompt">Choisis une langue</string>
-	<string-array name="lang_arrays">
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+    <string-array name="lang_arrays">
         <item>Français</item>
         <item>Anglais</item>
         <item>Espagnol</item>
         <item>Chinois</item>
         <item>Italien</item>
     </string-array>
+    
+    <string-array name="nav_drawer_items">
+        <item >Match</item>
+        <item >Profile</item>
+        <item >Friends</item>
+        <item >Chat</item>
+    </string-array>
+
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+	<string name="desc_list_item_icon">Item Icon</string>
 </resources>
