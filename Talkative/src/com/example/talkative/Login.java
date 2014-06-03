@@ -36,7 +36,7 @@ public class Login extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 		SignUpInt = new Intent(this, SignIn.class);
-		LogInInt = new Intent(this, ChatMatcher.class);
+		LogInInt = new Intent(this, MainActivity.class);
 		SignUp = (TextView) findViewById(R.id.signInLog);
 		Pseudo = (EditText) findViewById(R.id.usernamLog);
 		Password = (EditText) findViewById(R.id.passwordLog);

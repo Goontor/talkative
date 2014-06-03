@@ -60,6 +60,7 @@
             android:textSize="24px" />
 
         <EditText
+            android:id="@+id/lastNamePro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Garavet"
@@ -80,7 +81,7 @@
             android:textSize="24px" />
 
         <EditText
-            android:id="@+id/editNom"
+            android:id="@+id/firstNamePro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Jeremy"
@@ -101,7 +102,7 @@
             android:textSize="24px" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/birthdatePro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -124,7 +125,7 @@
             android:textSize="24px" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/phonePro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -148,7 +149,7 @@
             android:textSize="24px" />
 
         <Spinner
-            android:id="@+id/spinLangNat"
+            android:id="@+id/knownLanguage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -170,7 +171,7 @@
             android:textSize="24px" />
 
         <Spinner
-            android:id="@+id/spinLang"
+            android:id="@+id/talkingLanguage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

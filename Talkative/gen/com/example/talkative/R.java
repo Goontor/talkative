@@ -10,6 +10,7 @@ package com.example.talkative;
 public final class R {
     public static final class array {
         public static final int lang_arrays=0x7f070000;
+        public static final int nav_drawer_icons=0x7f070002;
         public static final int nav_drawer_items=0x7f070001;
     }
     public static final class attr {
@@ -50,29 +51,31 @@ public final class R {
         public static final int planetsearch=0x7f02000e;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0019;
+        public static final int action_settings=0x7f0a001b;
+        public static final int birthdatePro=0x7f0a0013;
         public static final int counter=0x7f0a0009;
         public static final int drawer_layout=0x7f0a0000;
-        public static final int editNom=0x7f0a0011;
-        public static final int editText1=0x7f0a0012;
-        public static final int emailsi=0x7f0a0017;
+        public static final int emailsi=0x7f0a0019;
+        public static final int firstNamePro=0x7f0a0012;
         public static final int frame_container=0x7f0a0001;
         public static final int grettingCM=0x7f0a0003;
         public static final int icon=0x7f0a0007;
         public static final int imageView1=0x7f0a0010;
+        public static final int knownLanguage=0x7f0a0015;
+        public static final int lastNamePro=0x7f0a0011;
         public static final int list_slidermenu=0x7f0a0002;
         public static final int lostPasswordLog=0x7f0a000e;
         public static final int matchingImage=0x7f0a0004;
         public static final int passwordLog=0x7f0a000c;
-        public static final int passwordsi=0x7f0a0016;
-        public static final int pseudosi=0x7f0a0015;
+        public static final int passwordsi=0x7f0a0018;
+        public static final int phonePro=0x7f0a0014;
+        public static final int pseudosi=0x7f0a0017;
         public static final int signInLog=0x7f0a000f;
-        public static final int spinLang=0x7f0a0014;
         public static final int spinLangMatch=0x7f0a0006;
-        public static final int spinLangNat=0x7f0a0013;
         public static final int spinLangNatMatch=0x7f0a0005;
         public static final int submitButtonLog=0x7f0a000d;
-        public static final int submitsi=0x7f0a0018;
+        public static final int submitsi=0x7f0a001a;
+        public static final int talkingLanguage=0x7f0a0016;
         public static final int textView1=0x7f0a000a;
         public static final int title=0x7f0a0008;
         public static final int usernamLog=0x7f0a000b;
@@ -80,10 +83,12 @@ public final class R {
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int chat_matcher=0x7f030001;
-        public static final int drawer_list_item=0x7f030002;
-        public static final int login=0x7f030003;
-        public static final int profil=0x7f030004;
-        public static final int signin=0x7f030005;
+        public static final int conversation_layout=0x7f030002;
+        public static final int drawer_list_item=0x7f030003;
+        public static final int friends_layout=0x7f030004;
+        public static final int login=0x7f030005;
+        public static final int profil=0x7f030006;
+        public static final int signin=0x7f030007;
     }
     public static final class menu {
         public static final int login=0x7f090000;

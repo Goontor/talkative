@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View.OnClickListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,9 +43,10 @@ import android.widget.Toast;
 public class SignIn extends Activity  {
 	Button submitButton;
 	EditText pseudo;
+	Intent SignInInt;
 	EditText password;
 	EditText email;
-
+	ConnexionService mCService;
 	// Progress Dialog
     private ProgressDialog pDialog;
 
@@ -64,6 +66,7 @@ public class SignIn extends Activity  {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.signin);
 		pseudo = (EditText) findViewById(R.id.pseudosi);
+		SignInInt = new Intent(this, Login.class);
 		password = (EditText) findViewById(R.id.passwordsi);
 		email = (EditText) findViewById(R.id.emailsi);
 		submitButton = (Button) findViewById(R.id.submitsi);
@@ -113,12 +116,15 @@ public class SignIn extends Activity  {
                if(am.supportsAccountCreation()){
 	               try{
 	            	   Log.d("request!", "starting5");
-	            	   
 	            	 am.createAccount(pseudoS, passwordS,params);
-	            	 Log.d("request!", "starting6");
+	            	 Log.d("request!", "starting7");
+	            	 dialog.dismiss();
+	                 startActivity(SignInInt);
+	                 Log.d("request!", "starting10");
 	               }
 	               catch(XMPPException e){
 	            	   Log.d("request!", "starting7 "+e);
+	            	   dialog.dismiss();
 	            	   Toast.makeText(SignIn.this, "Adding account Error: "+e,3000).show();
 	               }
                }
@@ -129,8 +135,7 @@ public class SignIn extends Activity  {
            } catch (Exception e) {
                
            }
-           dialog.dismiss();
-
+           
 		}
 		/**
         * After completing background task Dismiss the progress dialog
