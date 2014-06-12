@@ -10,11 +10,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/imageView1"
+        <ImageButton
+            android:id="@+id/profilePicPro"
             android:layout_width="70dip"
-        	android:layout_height="wrap_content"
-            android:src="@drawable/anonyme" 
+            android:layout_height="70dip"
             android:scaleType="centerCrop"
             android:layout_weight="1"
 />
@@ -180,6 +179,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/submitPro"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Edit my Account"
@@ -187,6 +187,7 @@
         android:textSize="24px" />
 
     <Button
+        android:id="@+id/deletePro"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Delete my Account"

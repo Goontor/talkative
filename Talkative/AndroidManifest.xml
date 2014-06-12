@@ -31,6 +31,8 @@
             
             
         </activity>
+        <activity android:name="com.example.talkative.FilePickerActivity" >
+        </activity>
         <activity
             android:name="com.example.talkative.Login"
             android:label="@string/title_activity_login" 

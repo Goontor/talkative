@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -225,6 +226,9 @@ public class MainActivity extends Activity {
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.d("GAGNé", "IL APPEL!!!!2");
 	}
 
 }
