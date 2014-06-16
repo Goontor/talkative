@@ -2,9 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/profil"
     android:orientation="vertical"
     android:padding="15dp" >
-
+<LinearLayout
+   	    android:layout_width="match_parent"
+   	    android:layout_height="wrap_content"
+   	    android:layout_marginLeft="0px"
+   	    android:layout_marginRight="0px"
+   	    android:background="@drawable/background_connexion"
+   	    android:orientation="horizontal"
+   	    android:padding="10dp" >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" > 	    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -13,7 +25,7 @@
         <ImageButton
             android:id="@+id/profilePicPro"
             android:layout_width="70dip"
-            android:layout_height="70dip"
+            android:layout_height="80dip"
             android:scaleType="centerCrop"
             android:layout_weight="1"
 />
@@ -105,6 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+             android:textSize="24px"
             android:hint="07/07/1990"
             android:inputType="date" >
 
@@ -128,6 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+             android:textSize="24px"
             android:hint="0629586275"
             android:inputType="numberDecimal" >
 
@@ -152,6 +166,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+             android:textSize="24px"
             android:entries="@array/lang_arrays"
             android:prompt="@string/lang_prompt" />
     </LinearLayout>
@@ -165,7 +180,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Je Veux Apprendre :"
+            android:text="Je veux Apprendre :"
             android:textColor="#000000"
             android:textSize="24px" />
 
@@ -174,6 +189,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+             android:textSize="24px"
             android:entries="@array/lang_arrays"
             android:prompt="@string/lang_prompt" />
     </LinearLayout>
@@ -194,4 +210,6 @@
         android:textColor="#A5260A"
         android:textSize="24px" />
 
+</LinearLayout>
+</LinearLayout> 
 </LinearLayout>
