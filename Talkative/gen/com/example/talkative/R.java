@@ -50,7 +50,9 @@ public final class R {
         public static final int list_item_bg_pressed=0x7f02000d;
         public static final int list_selector=0x7f02000e;
         public static final int logo=0x7f02000f;
-        public static final int planetsearch=0x7f020010;
+        public static final int profil=0x7f020010;
+        public static final int search=0x7f020011;
+        public static final int signin=0x7f020012;
     }
     public static final class id {
         public static final int TextView01=0x7f0a000c;
