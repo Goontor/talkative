@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class HomeFragment extends Fragment {
 	
 	public HomeFragment(){}
 	TextView Grettings;
+	Spinner talkingLang;
+	Spinner knownLang;
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {

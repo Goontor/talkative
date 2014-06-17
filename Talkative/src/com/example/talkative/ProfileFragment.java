@@ -1,9 +1,11 @@
 package com.example.talkative;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.ByteBuffer;
 
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.packet.VCard;
 
 import com.example.talkative.FilePickerActivity;
@@ -53,11 +55,14 @@ public class ProfileFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//Loading the VCard
+		
+		ConnexionService.configure(ProviderManager.getInstance());
 		mVCard =new VCard();
+		Log.d("Card Loading","CONACC"+ConnexionService.conAcc);
 		try{
 			
 			mVCard.load(ConnexionService.con);
-			Log.d("Card Loading","By the try");
+			Log.d("Card Loading","By the try"+mVCard);
 			
 		}
 		catch(Exception e){
@@ -109,8 +114,22 @@ public class ProfileFragment extends Fragment {
 				mVCard.setFirstName(firstName.getText().toString());
 				mVCard.setPhoneHome("Voice", phoneNumber.getText().toString());
 				mVCard.setLastName(lastName.getText().toString());
+				profilPic.buildDrawingCache();
+				Bitmap myImage = profilPic.getDrawingCache();
+				int bytes = myImage.getByteCount();
+                ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
+                myImage.copyPixelsToBuffer(buffer);
+                byte[] array = buffer.array(); 
+				mVCard.setAvatar(array);
 				mVCard.setField("knownLanguage",knownLang.getSelectedItem().toString());
 				mVCard.setField("talkingLanguage", talkingLang.getSelectedItem().toString());
+				try{
+					Log.d("Save ok","Save ok"+mVCard);
+					mVCard.save(ConnexionService.con);
+				}
+				catch(XMPPException e){
+					Log.d("Save error",""+e);
+				}
 				getView().invalidate();
 			}
 		});
@@ -151,6 +170,18 @@ public class ProfileFragment extends Fragment {
 		Integer knownPos = talkingAdap.getPosition(mVCard.getField("knownLanguage"));
 		Log.d("knownPos", ""+knownPos);
 		knownLang.setSelection(knownPos);
+		///////Setting Spinner Values (END)
+		//Setting Image
+		if(mVCard.getAvatar()!=null){
+		Log.d("NoProblem", "Get avatar notnull"+mVCard.getAvatar());
+		profilPic.setImageBitmap(bytesToBitmap(mVCard.getAvatar()));
+		}
+		else{
+			Log.d("Problem", "Get avatar null");
+		}
+		///////Setting Image(END)
+		
+		
 	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -187,5 +218,33 @@ public class ProfileFragment extends Fragment {
             }
         }
     }
+	
+	public static Bitmap bytesToBitmap(byte[] bytes)
+	{
+	    ByteArrayInputStream imageStream = null;
+
+	    try
+	    {
+	    	
+	        imageStream = new ByteArrayInputStream(bytes);
+	        return BitmapFactory.decodeStream(imageStream);
+	    }
+	    catch (Exception ex)
+	    {
+	        Log.d("My Activity", "Unable to generate a bitmap: " + ex.getMessage());
+	        return null;
+	    }
+	    finally
+	    {
+	        if (imageStream != null)
+	        {
+	            try
+	            {
+	                imageStream.close();
+	            }
+	            catch (Exception ex) {}
+	        }
+	    }
+	}
 	
 }

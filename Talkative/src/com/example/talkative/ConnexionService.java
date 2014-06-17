@@ -2,12 +2,14 @@ package com.example.talkative;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.jivesoftware.smack.AccountManager;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.MessageTypeFilter;
@@ -15,7 +17,32 @@ import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.provider.PrivacyProvider;
+import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smack.util.StringUtils;
+import org.jivesoftware.smackx.GroupChatInvitation;
+import org.jivesoftware.smackx.PrivateDataManager;
+import org.jivesoftware.smackx.bytestreams.socks5.provider.BytestreamsProvider;
+import org.jivesoftware.smackx.packet.ChatStateExtension;
+import org.jivesoftware.smackx.packet.LastActivity;
+import org.jivesoftware.smackx.packet.OfflineMessageInfo;
+import org.jivesoftware.smackx.packet.OfflineMessageRequest;
+import org.jivesoftware.smackx.packet.SharedGroupsInfo;
+import org.jivesoftware.smackx.provider.AdHocCommandDataProvider;
+import org.jivesoftware.smackx.provider.DataFormProvider;
+import org.jivesoftware.smackx.provider.DelayInformationProvider;
+import org.jivesoftware.smackx.provider.DiscoverInfoProvider;
+import org.jivesoftware.smackx.provider.DiscoverItemsProvider;
+import org.jivesoftware.smackx.provider.MUCAdminProvider;
+import org.jivesoftware.smackx.provider.MUCOwnerProvider;
+import org.jivesoftware.smackx.provider.MUCUserProvider;
+import org.jivesoftware.smackx.provider.MessageEventProvider;
+import org.jivesoftware.smackx.provider.MultipleAddressesProvider;
+import org.jivesoftware.smackx.provider.RosterExchangeProvider;
+import org.jivesoftware.smackx.provider.StreamInitiationProvider;
+import org.jivesoftware.smackx.provider.VCardProvider;
+import org.jivesoftware.smackx.provider.XHTMLExtensionProvider;
+import org.jivesoftware.smackx.search.UserSearch;
 
 import android.app.Service;
 import android.content.Intent;
@@ -33,8 +60,10 @@ public class ConnexionService extends Service {
 	public static final String HOST = "188.226.205.160";
 	public static final int PORT = 5222;
 	public static final String SERVICE = "talkative.com";
+	public static  ArrayList<HashMap<String, String>> usersList=new ArrayList<HashMap<String, String>>();
 	final ConnectionConfiguration connConfig = new ConnectionConfiguration(HOST, PORT,SERVICE);
 	public static XMPPConnection con ;
+	public static Roster roster;
 	private ArrayList<String> messages = new ArrayList<String>();
 	private Handler mHandler = new Handler();
 
@@ -61,6 +90,7 @@ public class ConnexionService extends Service {
 	
 	
 	public void setConnection(XMPPConnection connection) {
+		
 		this.con = connection;
 		if (connection != null) {
 			// Add a packet listener to get messages sent to us
@@ -90,7 +120,9 @@ public class ConnexionService extends Service {
 	
 	
 	public void connect(final String uname, final String pwd) {
+		
 		Log.d("toto", "good0");
+		configure(ProviderManager.getInstance());
 		if(conAcc==null){
 			Log.d("toto", "good1");
 			
@@ -100,18 +132,34 @@ public class ConnexionService extends Service {
 				@Override
 				public void run() {
 			        try{
+			        	
+			        	connConfig.setDebuggerEnabled(true);
 			        	con = new XMPPConnection (connConfig);
 				        con.connect();
 				        Log.d("toto", "good4");
 				        con.login(uname, pwd);
 				        Log.d("toto", "good5");
 				        conAcc = new AccountManager(con);
+				        roster  = con.getRoster();
 				        Presence presence = new Presence(Presence.Type.available);
+				        Collection<RosterEntry> entries = roster.getEntries();
+
+			            for (RosterEntry entry : entries) {
+
+			                    HashMap<String, String> map = new HashMap<String, String>();
+			                    Presence entryPresence = roster.getPresence(entry.getUser());
+
+			                    Presence.Type type = entryPresence.getType();       
+
+			                    map.put("USER", entry.getName().toString());
+			                    map.put("STATUS", type.toString());
+			                    Log.e("USER", entry.getName().toString());
+
+			                    usersList.add(map);
+
+			            }
 						con.sendPacket(presence);
 						setConnection(con);
-
-						Roster roster = con.getRoster();
-						Collection<RosterEntry> entries = roster.getEntries();
 			        }
 			        catch(XMPPException e){
 			        	Log.d("connexion error", " is "+e);
@@ -132,6 +180,100 @@ public class ConnexionService extends Service {
 			Log.d("toto", "totalFail");
 			Toast.makeText(this, "Already Connected Refresh",3000).show();
     	}
+	}
+	
+	public static void configure(ProviderManager pm) {
+		//SmackConfiguration.setPacketReplyTimeout(4000);
+	//  Private Data Storage
+	pm.addIQProvider("query","jabber:iq:private", new PrivateDataManager.PrivateDataIQProvider());
+
+	//  Time
+	try {
+	    pm.addIQProvider("query","jabber:iq:time", Class.forName("org.jivesoftware.smackx.packet.Time"));
+	} catch (ClassNotFoundException e) {
+	    Log.w("TestClient", "Can't load class for org.jivesoftware.smackx.packet.Time");
+	}
+
+	//  Roster Exchange
+	pm.addExtensionProvider("x","jabber:x:roster", new RosterExchangeProvider());
+
+	//  Message Events
+	pm.addExtensionProvider("x","jabber:x:event", new MessageEventProvider());
+	//  Chat State
+	pm.addExtensionProvider("active","http://jabber.org/protocol/chatstates", new ChatStateExtension.Provider());
+	pm.addExtensionProvider("composing","http://jabber.org/protocol/chatstates", new ChatStateExtension.Provider()); 
+	pm.addExtensionProvider("paused","http://jabber.org/protocol/chatstates", new ChatStateExtension.Provider());
+	pm.addExtensionProvider("inactive","http://jabber.org/protocol/chatstates", new ChatStateExtension.Provider());
+	pm.addExtensionProvider("gone","http://jabber.org/protocol/chatstates", new ChatStateExtension.Provider());
+
+	//  XHTML
+	pm.addExtensionProvider("html","http://jabber.org/protocol/xhtml-im", new XHTMLExtensionProvider());
+
+	//  Group Chat Invitations
+	pm.addExtensionProvider("x","jabber:x:conference", new GroupChatInvitation.Provider());
+
+	//  Service Discovery # Items    
+	pm.addIQProvider("query","http://jabber.org/protocol/disco#items", new DiscoverItemsProvider());
+
+	//  Service Discovery # Info
+	pm.addIQProvider("query","http://jabber.org/protocol/disco#info", new DiscoverInfoProvider());
+
+	//  Data Forms
+	pm.addExtensionProvider("x","jabber:x:data", new DataFormProvider());
+
+	//  MUC User
+	pm.addExtensionProvider("x","http://jabber.org/protocol/muc#user", new MUCUserProvider());
+
+	//  MUC Admin    
+	pm.addIQProvider("query","http://jabber.org/protocol/muc#admin", new MUCAdminProvider());
+
+	//  MUC Owner    
+	pm.addIQProvider("query","http://jabber.org/protocol/muc#owner", new MUCOwnerProvider());
+
+	//  Delayed Delivery
+	pm.addExtensionProvider("x","jabber:x:delay", new DelayInformationProvider());
+
+	//  Version
+	try {
+	    pm.addIQProvider("query","jabber:iq:version", Class.forName("org.jivesoftware.smackx.packet.Version"));
+	} catch (ClassNotFoundException e) {
+	    //  Not sure what's happening here.
+	}
+
+	//  VCard
+	pm.addIQProvider("vCard","vcard-temp", new VCardProvider());
+
+	//  Offline Message Requests
+	pm.addIQProvider("offline","http://jabber.org/protocol/offline", new OfflineMessageRequest.Provider());
+
+	//  Offline Message Indicator
+	pm.addExtensionProvider("offline","http://jabber.org/protocol/offline", new OfflineMessageInfo.Provider());
+
+	//  Last Activity
+	pm.addIQProvider("query","jabber:iq:last", new LastActivity.Provider());
+
+	//  User Search
+	pm.addIQProvider("query","jabber:iq:search", new UserSearch.Provider());
+
+	//  SharedGroupsInfo
+	pm.addIQProvider("sharedgroup","http://www.jivesoftware.org/protocol/sharedgroup", new SharedGroupsInfo.Provider());
+
+	//  JEP-33: Extended Stanza Addressing
+	pm.addExtensionProvider("addresses","http://jabber.org/protocol/address", new MultipleAddressesProvider());
+
+	//   FileTransfer
+	pm.addIQProvider("si","http://jabber.org/protocol/si", new StreamInitiationProvider());
+
+	pm.addIQProvider("query","http://jabber.org/protocol/bytestreams", new BytestreamsProvider());
+
+	//  Privacy
+	pm.addIQProvider("query","jabber:iq:privacy", new PrivacyProvider());
+	pm.addIQProvider("command", "http://jabber.org/protocol/commands", new AdHocCommandDataProvider());
+	pm.addExtensionProvider("malformed-action", "http://jabber.org/protocol/commands", new AdHocCommandDataProvider.MalformedActionError());
+	pm.addExtensionProvider("bad-locale", "http://jabber.org/protocol/commands", new AdHocCommandDataProvider.BadLocaleError());
+	pm.addExtensionProvider("bad-payload", "http://jabber.org/protocol/commands", new AdHocCommandDataProvider.BadPayloadError());
+	pm.addExtensionProvider("bad-sessionid", "http://jabber.org/protocol/commands", new AdHocCommandDataProvider.BadSessionIDError());
+	pm.addExtensionProvider("session-expired", "http://jabber.org/protocol/commands", new AdHocCommandDataProvider.SessionExpiredError());
 	}
 
 }
