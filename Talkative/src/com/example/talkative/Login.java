@@ -58,7 +58,7 @@ public class Login extends Activity {
 			public void onClick(View arg0) {
 
 				startActivity(SignUpInt);
-
+				finish();
 			}
 
 		});
@@ -117,6 +117,7 @@ public class Login extends Activity {
 		protected void onPostExecute(String result) {
 			dialog.dismiss(); 
 			startActivity(LogInInt);
+			finish();
 		}
 
 	}

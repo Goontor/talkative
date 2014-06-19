@@ -3,12 +3,16 @@ package com.example.talkative;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.jivesoftware.smack.AccountManager;
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -21,6 +25,7 @@ import org.jivesoftware.smack.provider.PrivacyProvider;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smack.util.StringUtils;
 import org.jivesoftware.smackx.GroupChatInvitation;
+import org.jivesoftware.smackx.OfflineMessageManager;
 import org.jivesoftware.smackx.PrivateDataManager;
 import org.jivesoftware.smackx.bytestreams.socks5.provider.BytestreamsProvider;
 import org.jivesoftware.smackx.packet.ChatStateExtension;
@@ -64,6 +69,11 @@ public class ConnexionService extends Service {
 	final ConnectionConfiguration connConfig = new ConnectionConfiguration(HOST, PORT,SERVICE);
 	public static XMPPConnection con ;
 	public static Roster roster;
+	public static ChatManager CMan;
+	public static Boolean matcher;
+	public static List<String> countryMatcher;
+	public static String selectedFriend;
+	public static OfflineMessageManager OFMMan;
 	private ArrayList<String> messages = new ArrayList<String>();
 	private Handler mHandler = new Handler();
 
@@ -123,6 +133,7 @@ public class ConnexionService extends Service {
 		
 		Log.d("toto", "good0");
 		configure(ProviderManager.getInstance());
+		matcher = false;
 		if(conAcc==null){
 			Log.d("toto", "good1");
 			
@@ -138,10 +149,29 @@ public class ConnexionService extends Service {
 				        con.connect();
 				        Log.d("toto", "good4");
 				        con.login(uname, pwd);
+				        OFMMan = new OfflineMessageManager(con);
+				        CMan = con.getChatManager();
+				        Presence presence = new Presence(Presence.Type.available);
+						con.sendPacket(presence);
+						setConnection(con);
 				        Log.d("toto", "good5");
 				        conAcc = new AccountManager(con);
 				        roster  = con.getRoster();
-				        Presence presence = new Presence(Presence.Type.available);
+				        Roster.setDefaultSubscriptionMode(Roster.SubscriptionMode.accept_all);
+				        roster.addRosterListener(new RosterListener() {
+				            // Ignored events public void entriesAdded(Collection<String> addresses) {}
+				            public void entriesDeleted(Collection<String> addresses) {
+				            }
+				            public void entriesUpdated(Collection<String> addresses) {
+				            }
+				            public void presenceChanged(Presence presence) {
+				                Log.d("Presence changed: " + presence.getFrom() + " " + presence,"");
+				            }
+							@Override
+							public void entriesAdded(Collection<String> arg0) {
+								
+							}
+				        });
 				        Collection<RosterEntry> entries = roster.getEntries();
 
 			            for (RosterEntry entry : entries) {
@@ -160,6 +190,7 @@ public class ConnexionService extends Service {
 			            }
 						con.sendPacket(presence);
 						setConnection(con);
+						
 			        }
 			        catch(XMPPException e){
 			        	Log.d("connexion error", " is "+e);

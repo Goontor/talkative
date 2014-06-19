@@ -5,6 +5,8 @@ import com.example.talkative.model.NavDrawerItem;
 
 import java.util.ArrayList;
 
+import org.jivesoftware.smack.XMPPException;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -38,7 +40,7 @@ public class MainActivity extends Activity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
-
+	public Integer counter;
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,7 +68,14 @@ public class MainActivity extends Activity {
 		// Friends
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		// Chat
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
+		counter = 0;
+		try{
+		counter = ConnexionService.OFMMan.getMessageCount();
+		}
+		catch(Exception e){
+			
+		}
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, counter.toString()));
 		/*// Pages
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 		// What's hot, We  will add a counter here
@@ -123,6 +132,10 @@ public class MainActivity extends Activity {
 			// display view for selected nav drawer item
 			displayView(position);
 		}
+	}
+	@Override
+	public void onBackPressed() {
+		displayView(0);
 	}
 
 	@Override
