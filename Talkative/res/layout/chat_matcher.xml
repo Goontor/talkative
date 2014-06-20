@@ -60,7 +60,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Je parle :"
+            android:text="I speak :"
             android:textColor="#000000"
             android:textSize="24px" />
 
@@ -82,7 +82,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Je Veux Parler :"
+            android:text="I want to speak:"
             android:textColor="#000000"
             android:textSize="24px" />
 

@@ -78,14 +78,12 @@ public class Login extends Activity {
 
 		public void onServiceDisconnected(ComponentName name) {
 			Log.d("onstart", "onstartDic1");
-			Toast.makeText(Login.this, "Service is disconnected", 1000).show();
 			mBounded = false;
 			mCService = null;
 		}
 
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			Log.d("onstart", "onstartCon1");
-			Toast.makeText(Login.this, "Service is connected", 1000).show();
 			mBounded = true;
 			LocalBinder mLocalBinder = (LocalBinder) service;
 			mCService = mLocalBinder.getConnexionInstance();
@@ -109,15 +107,30 @@ public class Login extends Activity {
 				Log.d("toto", "onclick2");
 			} catch (Exception e) {
 				Log.d("connexion error", " is " + e);
+				dialog.dismiss(); 
+				
+				String response="pasmalin";
 			}
 			String response="malin";
 			return response;
 		}
 
 		protected void onPostExecute(String result) {
-			dialog.dismiss(); 
-			startActivity(LogInInt);
-			finish();
+			
+			if(ConnexionService.connexionResult!="Failed"){
+				startActivity(LogInInt);
+				dialog.dismiss();
+				finish();
+				
+			}
+			else{
+				dialog.dismiss();
+				Toast.makeText(Login.this, "wrong credentials",
+						   3000).show();
+				
+			}
+			
+			
 		}
 
 	}

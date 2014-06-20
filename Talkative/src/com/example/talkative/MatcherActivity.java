@@ -1,8 +1,10 @@
 package com.example.talkative;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.SmackAndroid;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.filter.MessageTypeFilter;
@@ -68,6 +70,7 @@ public void onCreate(Bundle savedInstanceState) {
 	ConnexionService.configure(ProviderManager.getInstance());
 	connection = ConnexionService.con;
 	setConnection(connection);
+	Collections.sort(ConnexionService.countryMatcher);
 	ConnexionService.matcher = false;
 	
 	Thread t = new Thread(new Runnable() {
@@ -109,9 +112,12 @@ public void onCreate(Bundle savedInstanceState) {
 		            {
 				
 		            
-		            dialog.dismiss();}
+		            dialog.dismiss();
+		            
+		            }
 		            
 		        });
+				
 				WebServiceInter.deleteMatch(ConnexionService.con.getUser());
 				WebServiceInter.deleteAnswer(recipient);
 			
@@ -127,7 +133,7 @@ public void onCreate(Bundle savedInstanceState) {
 		            {
 				
 		            dialog.dismiss();
-				
+		            
 		            }
 		        });
 			}
@@ -150,8 +156,12 @@ public void onCreate(Bundle savedInstanceState) {
 			msg.setBody(text);
 			if (connection != null) {
 				connection.sendPacket(msg);
-				messages.add(connection.getUser() + ":");
+				messages.add(connection.getUser().toString().replace("@talkative/Smack","") + ":");
 				messages.add(text);
+				textMessage.setText("");
+				synchronized (textMessage) {
+					textMessage.notify();
+					}
 				setListAdapter();
 			}
 		}
@@ -182,13 +192,30 @@ public void onCreate(Bundle savedInstanceState) {
 						WebServiceInter.createRequest(recipient, ConnexionService.con.getUser().toString());
 					}
 					else{
+						Log.d("REQUEST EXIST","REQUEST EXIST");
 						toastText=" has been added to your friends :D";
 						WebServiceInter.deleteRequest(ConnexionService.con.getUser().toString(),recipient);
+						try {           
+					        //ConnexionService.roster.createEntry(ConnexionService.con.getUser().toString(), recipient, null);
+					        ConnexionService.roster.createEntry(recipient,ConnexionService.con.getUser(), null);
+					        for(RosterEntry rostent: ConnexionService.roster.getEntries()){
+					        	if (rostent.getName()==null){
+					        		rostent.setName(ConnexionService.con.getUser());
+					        	}
+					        }
+					    } catch (Exception e) {          
+					        e.printStackTrace();
+					    }
 					}
 				}
 			});
-			
-			
+			t.start();
+			try {
+		       t.join();
+		    } catch (InterruptedException e) {
+		        // ...
+		    }
+			Log.d("DEBUG3","DEBUG3");
 			Toast.makeText(getApplicationContext(), recipient+toastText,
 					   3000).show();
 			messages.add(connection.getUser() + ":");
@@ -199,25 +226,41 @@ public void onCreate(Bundle savedInstanceState) {
 		}
 	});
 	///////
-	//Set Listener to add friend button
+	//Set Listener to Reject friend button
 		quitReject.setOnClickListener(new View.OnClickListener() {
+			
 			public void onClick(View view) {
+				Log.d("DEBUG3","DEBUG3REJECT");
 				String to = recipient;
-				String text = textMessage.getText().toString();
+				text = textMessage.getText().toString();
 
 				Log.i("XMPPChatDemoActivity", "Sending text " + text + " to "
 						+ to);
+				Thread t = new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+					String to = recipient;
 					Message msg = new Message(to, Message.Type.chat);
 					msg.setBody(ConnexionService.con.getUser().toString()+"has quit the conversation without asking to be friend!");
 					if (connection != null) {
 						connection.sendPacket(msg);
-						messages.add(connection.getUser() + ":");
-						messages.add(text);
-						setListAdapter();
 					}
 					WebServiceInter.deleteRequest(ConnexionService.con.getUser().toString(),recipient);
-					Intent returnToMenu = new Intent(MatcherActivity.this, MainActivity.class);
-					startActivity(returnToMenu);
+					
+					}
+				});
+				t.start();
+				try {
+			       t.join();
+			    } catch (InterruptedException e) {
+			        // ...
+			    }
+				messages.add(connection.getUser() + ":");
+				messages.add(text);
+				setListAdapter();
+				Intent returnToMenu = new Intent(MatcherActivity.this, MainActivity.class);
+				startActivity(returnToMenu);
 			}
 		});
 	
@@ -237,7 +280,7 @@ public void setConnection(XMPPConnection connection) {
 							.getFrom());
 					Log.i("XMPPChatDemoActivity", "Text Recieved "
 							+ message.getBody() + " from " + fromName);
-					messages.add(fromName + ":");
+					messages.add(fromName.replace("@talkative", "") + ":");
 					messages.add(message.getBody());
 					// Add the incoming message to the list view
 					mHandler.post(new Runnable() {

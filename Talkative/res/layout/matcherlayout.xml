@@ -19,27 +19,7 @@
         android:layout_height="wrap_content"
         android:text="Quit and Reject"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="70dp"
-            android:text="Chat With"
-            android:textStyle="bold" />
-
-        <TextView 
-            android:id="@+id/toETMat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="250dp"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textSize="16sp" />
-    </LinearLayout>
+    
 
     <ListView
         android:id="@+id/listMessagesMat"

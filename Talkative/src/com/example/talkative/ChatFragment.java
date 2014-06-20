@@ -92,12 +92,13 @@ public class ChatFragment extends Fragment {
 		SmackAndroid.init(getActivity());
 		recipient="";
 		textMessage = (EditText) getView().findViewById(R.id.chatET);
+		headerRecipent = (TextView) getView().findViewById(R.id.toET);
 		listview = (ListView) getView().findViewById(R.id.listMessages);
 		ConnexionService.configure(ProviderManager.getInstance());
 		connection = ConnexionService.con;
 		setConnection(connection);
 		recipient = ConnexionService.selectedFriend + "@talkative";
-		
+		headerRecipent.setText(recipient);
 		setListAdapter();
 		// Set a listener to send a chat text message
 		Button send = (Button) getView().findViewById(R.id.sendBtn);

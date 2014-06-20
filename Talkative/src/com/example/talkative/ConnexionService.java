@@ -73,6 +73,7 @@ public class ConnexionService extends Service {
 	public static Boolean matcher;
 	public static List<String> countryMatcher;
 	public static String selectedFriend;
+	public static String connexionResult;
 	public static OfflineMessageManager OFMMan;
 	private ArrayList<String> messages = new ArrayList<String>();
 	private Handler mHandler = new Handler();
@@ -143,7 +144,7 @@ public class ConnexionService extends Service {
 				@Override
 				public void run() {
 			        try{
-			        	
+			        	connexionResult="";
 			        	connConfig.setDebuggerEnabled(true);
 			        	con = new XMPPConnection (connConfig);
 				        con.connect();
@@ -180,10 +181,16 @@ public class ConnexionService extends Service {
 			                    Presence entryPresence = roster.getPresence(entry.getUser());
 
 			                    Presence.Type type = entryPresence.getType();       
-
-			                    map.put("USER", entry.getName().toString());
+			                    try{
+			                    	map.put("USER", entry.getName().toString());
+			                    	Log.e("USER", entry.getName().toString());
+			                    }
+			                    catch(Exception e){
+			                    	map.put("USER", "default");
+			                    	Log.e("USER", "default");
+			                    }
 			                    map.put("STATUS", type.toString());
-			                    Log.e("USER", entry.getName().toString());
+			                    
 
 			                    usersList.add(map);
 
@@ -193,6 +200,7 @@ public class ConnexionService extends Service {
 						
 			        }
 			        catch(XMPPException e){
+			        	connexionResult="Failed";
 			        	Log.d("connexion error", " is "+e);
 			        }
 				}

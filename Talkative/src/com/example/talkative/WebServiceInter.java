@@ -369,10 +369,10 @@ public class WebServiceInter {
 		        Log.d("DEBUGREQ7", "DEBUGREQ9"+result);
 		        for(int i=0;i<jArray.length();i++){
 		                JSONObject json_data = jArray.getJSONObject(i);
-		                Log.i("log_tag","Jid: "+json_data.get("jid").toString()+
-		                        ", expectation: "+json_data.get("expectation").toString()
+		                Log.i("log_tag","Jid: "+json_data.get("senderjid").toString()+
+		                        ", expectation: "+json_data.get("recieverjid").toString()
 		                );
-		                result2 = json_data.get("jid").toString();
+		                result2 = json_data.get("recieverjid").toString();
 		        }
 		}
 		catch(JSONException e){

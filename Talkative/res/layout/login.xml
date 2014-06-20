@@ -84,6 +84,7 @@
 	            android:layout_height="wrap_content"
 	            android:textSize="26px"
 	            android:ems="10"
+	            android:inputType="textPassword"
 	            android:layout_weight="4"
 	            android:hint="Password"
 	            >

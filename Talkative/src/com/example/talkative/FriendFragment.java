@@ -96,7 +96,6 @@ public class FriendFragment extends Fragment {
 		
 		public class ViewHolder {
 			public TextView friendName;
-			public ImageView friendPic;
 			public ImageView friendStatus;
 		}
 		
@@ -114,7 +113,7 @@ public class FriendFragment extends Fragment {
 					Log.d("DeBuG9","DeBuG6");
 				holder.friendName = (TextView) vi.findViewById(R.id.friendName);
 					Log.d("DeBuG","DeBuG7");
-				holder.friendPic = (ImageView) vi.findViewById(R.id.friendPic);
+				//holder.friendPic = (ImageView) vi.findViewById(R.id.friendPic);
 					Log.d("DeBuG","DeBuG8");
 				holder.friendStatus = (ImageView) vi.findViewById(R.id.friendStat);
 					Log.d("DeBuG","DeBuG9");
@@ -130,7 +129,7 @@ public class FriendFragment extends Fragment {
 				Log.d("DeBuG","DeBuG14");
 			try{
 					Log.d("DeBuG","DeBuG16");
-				holder.friendPic.setImageBitmap(ProfileFragment.bytesToBitmap(thisUserVCard.getAvatar()));
+				//holder.friendPic.setImageBitmap(ProfileFragment.bytesToBitmap(thisUserVCard.getAvatar()));
 					Log.d("DeBuG","DeBuG17"+ConnexionService.roster.getPresence(mylist.get(position).getFirstName()+"@talkative"));
 				if(ConnexionService.roster.getPresence(mylist.get(position).getFirstName()+"@talkative").isAvailable()){
 					Log.d("DeBuG","DeBuG18");
@@ -138,7 +137,7 @@ public class FriendFragment extends Fragment {
 				}
 				else{
 					Log.d("DeBuG","DeBuG19");
-					holder.friendStatus.setImageDrawable(getResources().getDrawable(R.drawable.offline));
+					holder.friendStatus.setImageDrawable(getResources().getDrawable(R.drawable.online));
 				}
 			}
 			
